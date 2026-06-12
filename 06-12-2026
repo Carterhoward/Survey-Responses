@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlanHub — Automation Opportunity Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f0f;
+    --ink-2: #3d3d3a;
+    --ink-3: #7a7a75;
+    --ink-4: #b0b0aa;
+    --surface: #f9f8f5;
+    --surface-2: #f1f0ec;
+    --surface-3: #e8e6e0;
+    --white: #ffffff;
+    --rule: #e2e0da;
+
+    --green: #1D9E75;
+    --green-bg: #e8f5ef;
+    --green-text: #0a5c42;
+
+    --amber: #BA7517;
+    --amber-bg: #fdf3e0;
+    --amber-text: #7a4a08;
+
+    --blue: #185FA5;
+    --blue-bg: #e8f0fb;
+    --blue-text: #0c3d7a;
+
+    --gray-bg: #f1f0ec;
+    --gray-text: #5a5a55;
+
+    --red-bg: #fceaea;
+    --red-text: #8a2020;
+  }
+
+  html { background: var(--surface); }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--surface);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+  }
+
+  .header-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--ink-3);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  .header-meta {
+    margin-top: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+
+  .meta-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  /* Section */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    margin-top: 48px;
+  }
+
+  .section-header:first-of-type { margin-top: 0; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .card-main {
+    padding: 22px 24px 18px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .impact-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .impact-high { background: var(--red-bg); color: var(--red-text); }
+  .impact-med { background: var(--amber-bg); color: var(--amber-text); }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--ink-3);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    max-width: 640px;
+  }
+
+  /* Coverage bar */
+  .coverage-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .coverage-track {
+    flex: 1;
+    height: 4px;
+    background: var(--surface-3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .coverage-fill {
+    height: 4px;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  .fill-full { background: var(--green); }
+  .fill-high { background: var(--green); }
+  .fill-mid { background: var(--amber); }
+  .fill-low { background: var(--amber); }
+
+  .coverage-pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 34px;
+    text-align: right;
+  }
+
+  .pct-green { color: var(--green-text); }
+  .pct-amber { color: var(--amber-text); }
+
+  /* Items table */
+  .card-items {
+    border-top: 1px solid var(--surface-2);
+    background: var(--surface);
+  }
+
+  .item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 11px 24px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .item-row:last-child { border-bottom: none; }
+
+  .item-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+    letter-spacing: 0.02em;
+  }
+
+  .tag-built { background: var(--green-bg); color: var(--green-text); }
+  .tag-p2 { background: var(--blue-bg); color: var(--blue-text); }
+  .tag-backlog { background: var(--gray-bg); color: var(--gray-text); border: 1px solid var(--rule); }
+  .tag-future { background: var(--amber-bg); color: var(--amber-text); }
+  .tag-blocked { background: var(--red-bg); color: var(--red-text); }
+
+  .item-text { flex: 1; }
+
+  /* Signal */
+  .signal-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-top: 1px solid var(--surface-2);
+    background: var(--white);
+  }
+
+  .signal-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    white-space: nowrap;
+  }
+
+  .signal-text {
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+    padding: 14px 18px;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .legend-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-4);
+    letter-spacing: 0.04em;
+  }
+
+  .footer-right {
+    font-size: 12px;
+    color: var(--ink-4);
+  }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 32px 32px 60px; }
+    .card { break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 20px 60px; }
+    .summary-strip { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <p class="header-eyebrow">PlanHub Market Development</p>
+    <h1>Automation opportunity roadmap</h1>
+    <p class="header-sub">Survey responses from 16 team members mapped against the Phase 1 HubSpot build spec. Identifies what is covered, what is in progress, and what gaps remain.</p>
+    <div class="header-meta">
+      <div class="meta-item">
+        <span class="meta-label">Prepared</span>
+        <span class="meta-value">June 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Survey respondents</span>
+        <span class="meta-value">16 team members</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Opportunities mapped</span>
+        <span class="meta-value">7 categories · 14 items</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Initiative</span>
+        <span class="meta-value">Project Lift · Phase 1 &amp; 2</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:36px;">
+
+    <div style="background:var(--white); border:1px solid var(--rule); border-radius:12px; padding:20px 22px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-4); margin-bottom:16px;">Survey signal by category</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">CRM &amp; tickets</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">9 · 24%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:24%; background:#1D9E75; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">Pipeline integration</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">8 · 21%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:21%; background:#1D9E75; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">Dedup &amp; data quality</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">6 · 16%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:16%; background:#1D9E75; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">Outreach &amp; follow-up</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">5 · 13%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:13%; background:#BA7517; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">Data extraction</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">4 · 11%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:11%; background:#BA7517; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">Reporting</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">3 · 8%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:8%; background:#BA7517; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-size:12px; color:var(--ink-2);">Workload &amp; capacity</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">3 · 8%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:8%; background:#BA7517; border-radius:3px;"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); font-size:11px; color:var(--ink-4);">38 total mentions across 16 respondents</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid var(--rule); border-radius:12px; padding:20px 22px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-4); margin-bottom:16px;">Item status distribution</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="display:flex; align-items:center; gap:7px; font-size:12px; color:var(--ink-2);"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; padding:1px 7px; border-radius:4px; background:var(--green-bg); color:var(--green-text);">Built</span> In current build</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">7 · 37%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:37%; background:#1D9E75; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="display:flex; align-items:center; gap:7px; font-size:12px; color:var(--ink-2);"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; padding:1px 7px; border-radius:4px; background:var(--blue-bg); color:var(--blue-text);">Phase 2</span> Planned next phase</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">7 · 37%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:37%; background:#185FA5; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="display:flex; align-items:center; gap:7px; font-size:12px; color:var(--ink-2);"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; padding:1px 7px; border-radius:4px; background:var(--red-bg); color:var(--red-text);">Blocked</span> Product or API dep.</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">4 · 21%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:21%; background:#8a2020; border-radius:3px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="display:flex; align-items:center; gap:7px; font-size:12px; color:var(--ink-2);"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; padding:1px 7px; border-radius:4px; background:var(--gray-bg); color:var(--gray-text); border:1px solid var(--rule);">Backlog</span> Not yet scheduled</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-3);">1 · 5%</span>
+          </div>
+          <div style="height:5px; background:var(--surface-3); border-radius:3px;"><div style="height:5px; width:5%; background:#888780; border-radius:3px;"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); font-size:11px; color:var(--ink-4);">19 total items across 7 categories</div>
+    </div>
+
+  </div>
+
+  <!-- HIGH PRIORITY -->
+  <div class="section-header">
+    <span class="section-label">High priority</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <!-- CRM -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-high">High impact</span>
+        <span class="card-title">CRM &amp; ticket automation</span>
+      </div>
+      <p class="card-desc">Ticket creation, routing, status updates, and handoffs across PCT, BLDR, Research, and CSM pipelines. Most cited pain point in the survey — every team referenced manual ticket work.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-full" style="width:100%"></div></div>
+        <span class="coverage-pct pct-green">100%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-built">Built</span><span class="item-text">GC rep auto-population on TAM ticket creation</span></div>
+      <div class="item-row"><span class="item-tag tag-built">Current build</span><span class="item-text">Award status 3x data entry collapse — covered by current workflow</span></div>
+      <div class="item-row"><span class="item-tag tag-built">In scope</span><span class="item-text">Researcher follow-up task auto-creation — added to HS rearchitecture scope</span></div>
+      <div class="item-row"><span class="item-tag tag-built">In scope</span><span class="item-text">Bid date → CSM ticket auto-advance — added</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">9 of 16 respondents — most cited pain across all teams</span>
+    </div>
+  </div>
+
+  <!-- Pipeline integration -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-high">High impact</span>
+        <span class="card-title">Pipeline &amp; system integration</span>
+      </div>
+      <p class="card-desc">Manual JSON downloads, imports, and transfer tracking across PIPE → Scraper → Project Finder. No API, no audit trail, 22+ hr customer-facing lead time. Disconnected systems force spreadsheet-based reporting.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-mid" style="width:40%"></div></div>
+        <span class="coverage-pct pct-amber">40%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-built">In build</span><span class="item-text">PIPE API to HubSpot</span></div>
+      <div class="item-row"><span class="item-tag tag-blocked">Blocked</span><span class="item-text">Automated PIPE → Scraper import loop — pending PlanHub API</span></div>
+      <div class="item-row"><span class="item-tag tag-p2">Phase 2</span><span class="item-text">Transfer audit trail — manual reconciliation across Slack, Tableau, and Import Tracker</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">Most detailed and repeated pain — concentrated in team lead and PIT roles</span>
+    </div>
+  </div>
+
+  <!-- Duplicate detection -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-high">High impact</span>
+        <span class="card-title">Duplicate detection &amp; data quality</span>
+      </div>
+      <p class="card-desc">Duplicate projects blocking pipelines, duplicate HubSpot records, and stale Known Bidder and AutoZone lists processed repeatedly. Teams clearing these manually every day across every function.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-low" style="width:35%"></div></div>
+        <span class="coverage-pct pct-amber">35%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-built">Current build</span><span class="item-text">DNA / AutoZone company filtering before BLDR ticket creation</span></div>
+      <div class="item-row"><span class="item-tag tag-blocked">Blocked</span><span class="item-text">HubSpot ↔ PlanHub contact sync — pending product API</span></div>
+      <div class="item-row"><span class="item-tag tag-blocked">Blocked</span><span class="item-text">Duplicate resolution automation — pending product AI merging system</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">6 of 16 respondents across every team</span>
+    </div>
+  </div>
+
+  <!-- Outreach -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-high">High impact</span>
+        <span class="card-title">Automated outreach &amp; follow-up</span>
+      </div>
+      <p class="card-desc">Manual follow-up emails, GC rep outreach, bid list requests, and "not bidding" response handling all done by hand. One team lead explicitly requested AI-generated outreach on behalf of GC reps based on project context.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-low" style="width:45%"></div></div>
+        <span class="coverage-pct pct-amber">45%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-p2">Phase 2</span><span class="item-text">GCGS "not bidding" → auto-remove GC from project + close ticket</span></div>
+      <div class="item-row"><span class="item-tag tag-p2">Phase 2</span><span class="item-text">Triggered outreach from PIPE contacts — enabled by new HubSpot architecture</span></div>
+      <div class="item-row"><span class="item-tag tag-blocked">Blocked</span><span class="item-text">AI-generated GC rep outreach — pending product decision and architecture</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">5 respondents — one team lead named AI outreach as top want</span>
+    </div>
+  </div>
+
+  <!-- MEDIUM PRIORITY -->
+  <div class="section-header">
+    <span class="section-label">Medium priority</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <!-- AI extraction -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-med">Medium impact</span>
+        <span class="card-title">AI-assisted data extraction &amp; enrichment</span>
+      </div>
+      <p class="card-desc">Manual research for awarded GCs, bid lists from scanned documents, and GC company classification. Gemini usage capped and blocking daily work. No enterprise AI replacement in place today.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-high" style="width:60%"></div></div>
+        <span class="coverage-pct pct-green">60%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-built">Project Lift</span><span class="item-text">Gemini replacement for project descriptions and trade sourcing</span></div>
+      <div class="item-row"><span class="item-tag tag-p2">Phase 2 pilot</span><span class="item-text">Skyvern for BidNet planroom access — confirmed in pilot list</span></div>
+      <div class="item-row"><span class="item-tag tag-p2">Phase 2</span><span class="item-text">Euna planroom access — not in current pilot scope</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">4 respondents — Gemini cap is an active blocker right now</span>
+    </div>
+  </div>
+
+  <!-- Reporting -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-med">Medium impact</span>
+        <span class="card-title">Reporting &amp; operational visibility</span>
+      </div>
+      <p class="card-desc">Daily, weekly, and monthly counts manually tracked across spreadsheets, Slack screenshots, Tableau, and QuickSight. No single source of truth for pipeline health or team output. Report changes require admin dependencies.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-high" style="width:55%"></div></div>
+        <span class="coverage-pct pct-green">55%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-p2">Next phase</span><span class="item-text">Automated daily MD reporting digest — transfer rates, import counts, team stack rankings</span></div>
+      <div class="item-row"><span class="item-tag tag-p2">Phase 2</span><span class="item-text">QuickSight / Tableau self-serve — part of HubSpot rearchitecture Phase 2</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">Concentrated in team lead roles — highest individual response volume</span>
+    </div>
+  </div>
+
+  <!-- Workload -->
+  <div class="card">
+    <div class="card-main">
+      <div class="card-top">
+        <span class="impact-badge impact-med">Medium impact</span>
+        <span class="card-title">Workload assignment &amp; capacity planning</span>
+      </div>
+      <p class="card-desc">Manual project distribution twice daily to account for type, complexity, and team capacity. PTO tracked in a separate system with no connection to output expectations or coverage planning.</p>
+      <div class="coverage-row">
+        <span style="font-size:12px; color:var(--ink-4); min-width:110px;">Build coverage</span>
+        <div class="coverage-track"><div class="coverage-fill fill-high" style="width:75%"></div></div>
+        <span class="coverage-pct pct-green">75%</span>
+      </div>
+    </div>
+    <div class="card-items">
+      <div class="item-row"><span class="item-tag tag-built">Current build</span><span class="item-text">PCT round robin / weighted assignment — fixed in current build</span></div>
+      <div class="item-row"><span class="item-tag tag-backlog">Backlog</span><span class="item-text">Rippling PTO → PIPE capacity integration — automation opportunity</span></div>
+    </div>
+    <div class="signal-bar">
+      <span class="signal-label">Signal</span>
+      <span class="signal-text">3 respondents — both PET team leads cited this directly</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-left">PlanHub · Market Development · June 2026</span>
+    <span class="footer-right">Based on survey responses from 16 team members across MD, Sales, and CSM</span>
+  </div>
+
+</div>
+</body>
+</html>
